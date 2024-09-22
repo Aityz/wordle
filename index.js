@@ -71,4 +71,8 @@ date.addEventListener("change", function (event) {
   update();
 });
 
+document.getElementById("game").addEventListener("change", function (event) {
+  update();
+});
+
 update(); // update on start
