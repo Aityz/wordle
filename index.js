@@ -15,6 +15,10 @@ function update() {
     console.log("Getting data for connections");
 
     url += "https://www.nytimes.com/svc/connections/v2/";
+  } else if (game === "strands") {
+    console.log("Getting strands data");
+
+    url += "https://www.nytimes.com/svc/strands/v2/";
   } else {
     console.log("Unknown Game " + game);
 
@@ -56,9 +60,20 @@ function update() {
 
           category["cards"].forEach((card) => {
             document.getElementById("answer").innerHTML +=
-              card["content"] + " ";
+              card["content"] + ", ";
           });
         });
+      } else if (game === "strands") {
+        let answer = document.getElementById("answer");
+
+        answer.innerHTML =
+          "The answers to Strands on " + data["printDate"] + " are:<br />";
+
+        data["themeWords"].forEach((word) => {
+          answer.innerHTML += word + ", ";
+        });
+
+        answer.innerHTML += "<br />The Spangram was " + data["spangram"];
       }
     })
     .catch((error) => {
@@ -74,5 +89,9 @@ date.addEventListener("change", function (event) {
 document.getElementById("game").addEventListener("change", function (event) {
   update();
 });
+
+// make sure date is today
+let today = new Date().toISOString().split("T")[0];
+document.getElementById("date").value = today;
 
 update(); // update on start
