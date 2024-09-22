@@ -5,16 +5,16 @@ function update() {
 
   const date_val = new Date(date.value);
 
-  let url = "";
+  let url = "https://cors-anywhere.herokuapp.com/";
 
   if (game === "wordle") {
     console.log("Getting data for wordle");
 
-    url = "https://www.nytimes.com/svc/wordle/v2/";
+    url += "https://www.nytimes.com/svc/wordle/v2/";
   } else if (game === "connections") {
     console.log("Getting data for connections");
 
-    url = "https://www.nytimes.com/svc/connections/v2/";
+    url += "https://www.nytimes.com/svc/connections/v2/";
   } else {
     console.log("Unknown Game " + game);
 
@@ -24,7 +24,7 @@ function update() {
   // parse the month, year and date
 
   const monthString = (date_val.getMonth() + 1).toString().padStart(2, "0");
-  const dateString = (date_val.getDate() + 1).toString().padStart(2, "0");
+  const dateString = date_val.getDate().toString().padStart(2, "0");
   const year = date_val.getFullYear().toString();
 
   url += year + "-" + monthString + "-" + dateString + ".json";
@@ -33,7 +33,11 @@ function update() {
 
   console.log("Making request to URL: ", url);
 
-  fetch(url)
+  fetch(url, {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+    },
+  })
     .then((response) => response.json())
     .then((data) => {
       if (game === "wordle") {
@@ -46,17 +50,19 @@ function update() {
         document.getElementById("answer").innerHTML =
           "The answer to Connections on " + data["print_date"] + " is: ";
 
-        json["categories"].forEach((category) => {
+        data["categories"].forEach((category) => {
           document.getElementById("answer").innerHTML +=
             "<br />" + category["title"] + ": ";
 
           category["cards"].forEach((card) => {
-            document.getElementById("answer").innerHTML += card["content"];
+            document.getElementById("answer").innerHTML +=
+              card["content"] + " ";
           });
         });
       }
     })
     .catch((error) => {
+      console.log("Error: ", error);
       document.getElementById("answer").innerHTML = "Answer not found";
     });
 }
