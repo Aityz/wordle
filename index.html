@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+  <head>
+    <title>What was the wordle on X?</title>
+
+    <meta charset="UTF-8" />
+    <meta name="description" content="What was the wordle on X?" />
+    <meta name="keywords" content="Wordle, Wordle Answer, Wordle Archive" />
+    <meta name="author" content="Aityz" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <div id="container">
+      <h1>What was the wordle on X?</h1>
+      <p>An easy-to-use NYTimes games viewer</p>
+
+      <div id="data">
+        <p>What was the</p>
+        <select name="game" id="game">
+          <option value="wordle">Wordle</option>
+          <option value="connections">Connections</option>
+        </select>
+        <p>on</p>
+
+        <input id="date" type="date" />
+      </div>
+
+      <br />
+      <p id="answer"></p>
+    </div>
+  </body>
+
+  <script src="index.js"></script>
+</html>
